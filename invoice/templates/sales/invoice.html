@@ -1,0 +1,232 @@
+{% extends 'appbase.html' %}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
+<style>
+    @media screen {
+        @page {
+            size: 1000px;
+        }
+
+        .A5 {
+            margin-left: 18%;
+            margin-right: 18%;
+            border: solid 0px;
+            height: 10%;
+
+        }
+
+        table {
+            border: solid 1px;
+            width: 100%
+        }
+
+        tfoot {
+            border-top: solid 1px;
+
+        }
+
+        tbody tr {
+            height: 40px;
+            min-height: 40px
+        }
+
+        td {
+            border-left: solid 1px;
+        }
+
+        th {
+            border: solid 1px;
+        }
+    }
+
+    @media print {
+        @page {
+            size: A5;
+            border: solid 0px;
+        }
+
+        .main_container {
+            width: 80%;
+            margin-left: 15px;
+        }
+
+        td {
+            border-left: solid 1px;
+        }
+
+        th {
+            border-left: solid 1px;
+            border-bottom: solid 1px
+        }
+
+        table {
+            width: 100%;
+            border: solid 1px;
+        }
+
+        tbody tr {
+            height: 60px;
+            min-height: 60px
+        }
+
+        header {
+            display: none;
+        }
+
+        footer {
+            display: none;
+        }
+
+        #printPageButton {
+            display: none;
+        }
+
+        #show-sidebar {
+            display: none;
+        }
+    }
+
+</style>
+<!-- TOP PART -->
+<div class="A5" style="background-color: white;">
+    <div>
+        <h3 style="text-align: center;">PEI ESTIMATE {{date}}</h3>
+
+        <div class="row">
+            <p class='col-4' style="text-align: left;"> &nbsp;Costumer: {{name}}</p>
+            <h3 class='col-4' style="text-align: center;"> D.S.&nbsp;</h3>
+            <p class='col-4' style="text-align: right;"> Dated: {{last_entry.date.strftime("%b-%d-%Y")}}&nbsp;</p>
+        </div>
+        <div style="text-align: left;"> &nbsp;Invoice No: {{last_entry.id}}</div>
+    </div>
+    <div>
+        <table class='my_table'>
+            <thead>
+                <tr>
+                    <th class="text-center">N</th>
+                    <th class="text-center">Description of Goods</th>
+                    <th class="text-center">Alt. Quantity</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Rate</th>
+                    <th class="text-center">Per</th>
+                    <th class="text-center">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in item_range %}
+                {% if i >= item_len %}
+                <tr style='border-bottom: solid 0 px; border-top:solid 0px '>
+                    <td class="text-center">&nbsp;</td>
+                    <td class="text-center">&nbsp;</td>
+                    <td class="text-center">&nbsp;</td>
+                    <td class="text-center">&nbsp;</td>
+                    <td class="text-center">&nbsp;</td>
+                    <td class="text-center">&nbsp;</td>
+                    <td class="text-center">&nbsp;</td>
+                </tr>
+                {% endif %}
+                {% if i < item_len %}
+                <tr style="border-bottom: solid 1px;">
+                    <td class="text-center" style = 'width:3%'>{{i+1}}</td>
+                    <td class="text-center">
+                        <h6>{{item[i]}}</h6>
+                        <p>{{description[i]}}</p>
+                    </td>
+                    <td class="text-center" style = 'width:8%'>{{alternate_quantity[i]}}</td>
+                    <td class="text-center"style = 'width:11%'>{{quantity[i]}} {{per[i]}}</td>
+                    <td class="text-center" style = 'width:10%'>{{rate[i]}}</td>
+                    <td class="text-center" style = 'width:8%'>{{per[i]}}</td>
+                    <td class="text-center" style = 'width:12%'>{{amount[i]}}</td>
+
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr style="border-top: solid 1px;">
+                    <td></td>
+                    <td class="text-center">Total</td>
+                    <td class="text-center">{{total_alternate_quantity}}</td>
+                    <td class="text-center">{{total_quantity}}</td>
+                    <td class="text-center"></td>
+                    <td class="text-center"style="border-left: solid 0px;"></td>
+                    <td id='total_amount' class="text-center">{{total_amount}}</td>
+                </tr>
+                <tr style="border-top: solid 1px;">
+                    <td></td>
+                    <td class="text-center" style="border-left: solid 0px;"></td>
+                    <td class="text-center" style="border-left: solid 0px;"></td>
+                    <td class="text-center" style="border-left: solid 0px;"></td>
+                    <td class="text-center" style="border-left: solid 1px; border-top: solid 1px;">Paid</td>
+                    <td class="text-center" style="border-left: solid 0px;; border-top: solid 1px;"></td>
+                    <td class="text-center" style="border-top: solid 1px;">{{paid_amount}}</td>
+                </tr>
+                <tr style="border-top: solid 0px;">
+                    <td></td>
+                    <td class="text-center" style="border-left: solid 0px ;"></td>
+                    <td class="text-center" style="border-left: solid 0px;"></td>
+                    <td class="text-center" style="border-left: solid 0px;"></td>
+                    <td class="text-center" style="border-left: solid 1px; border-top: solid 1px;">Discount</td>
+                    <td class="text-center" style="border-left: solid 0px;; border-top: solid 1px;"></td>
+                    <td class="text-center" style="border-top: solid 1px;">{{discount}}</td>
+                </tr>
+                <tr style="border-top: solid 0px;">
+                    <td></td>
+                    <td class="text-center" style="border-left: solid 0px;"></td>
+                    <td class="text-center" style="border-left: solid 0px;"></td>
+                    <td class="text-center" style="border-left: solid 0px;"></td>
+                    <td class="text-center" style="border-left: solid 1px; border-top: solid 1px;">Remaning</td>
+                    <td class="text-center" style="border-left: solid 0px;; border-top: solid 1px;"></td>
+                    <td class="text-center" style="border-top: solid 1px;">{{total_amount-paid_amount-discount}}</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div>
+            <div>&nbsp;Amount in changeable(in words)</div>
+            <div id="words" style = 'font-size:18px; font-weight: bold;'></div>
+        </div>
+        <br>
+        <div><u></u>&nbsp;Declaration:&nbsp;</u></div>
+        <div class="row">
+            <div class="col-8">&nbsp;We declare that this invoice shows the actual price of the goods described and that
+                all particulars are true and &nbsp;correct.</div>
+            <div class="col-4" style="text-align: right;text-decoration: overline;"><br><br>&nbsp; Authorized Signature &nbsp; </div>
+        </div>
+    </div>
+</div>
+<footer>
+    <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+        <button class="btn btn-primary">Print</button>
+        <div class="col-11"></div>
+        <button class="btn btn-primary">Save</button>
+    </nav>
+</footer>
+<script>
+    $(document).ready(function () {
+        var a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ',
+            'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ',
+            'Eighteen ', 'Nineteen '
+        ];
+        var b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+        function inWords(num) {
+            if ((num = num.toString()).length > 9) return 'overflow';
+            n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+            if (!n) return;
+            var str = '';
+            str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+            str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+            str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+            str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+            str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][
+                1
+            ]]) + 'only ' : '';
+            return str;
+        }
+        document.getElementById('words').innerHTML = ' Nepalese Rupee ' + inWords(document.getElementById(
+            'total_amount').textContent); 
+
+    })
+
+</script>
+{% endblock %}
