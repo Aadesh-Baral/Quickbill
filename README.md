@@ -62,7 +62,4 @@ Start the server
   python app.py
 ```
 
-  
-![Logo](invoice/static/images/background/icon.PNG)
-
     
