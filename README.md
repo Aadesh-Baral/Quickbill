@@ -11,10 +11,12 @@ Store management web based application developed to address need of clothing sto
  - [mmenu.js](https://mmenujs.com/)
 
   
-## Demo
+## Overview
 ![](./images/login.png)
 ![](./images/dashboard.png)
 ![](./images/sales_form.png)
+
+## Demo
 To use demo of this app visit [Demo Link](https://fastinvoice.herokuapp.com/)
 and login using ``username: test`` and ``password: 12345``
 
