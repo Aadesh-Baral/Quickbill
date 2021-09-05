@@ -33,7 +33,7 @@ and login using ``username: test`` and ``password: 12345``
 Clone the project
 
 ```bash
-  git clone https://github.com/Aadesh-Baral/Quickbill.git ```
+  git clone https://github.com/Aadesh-Baral/Quickbill.git
 
 ```
 
