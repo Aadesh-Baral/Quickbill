@@ -17,8 +17,7 @@ Store management web based application developed to address need of clothing sto
 ![](./images/sales_form.png)
 
 ## Demo
-To use demo of this app visit [Demo Link](https://fastinvoice.herokuapp.com/)
-and login using ``username: test`` and ``password: 12345``
+[Demo Link](https://fastinvoice.herokuapp.com/)
 
 ## Features
 
