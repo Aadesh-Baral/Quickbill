@@ -1,5 +1,6 @@
 
 # Quickbill
+[![Coverage Status](https://coveralls.io/repos/github/Aadesh-Baral/Quickbill/badge.svg?branch=master)](https://coveralls.io/github/Aadesh-Baral/Quickbill?branch=master)
 
 Store management web based application developed to address need of clothing store but can be customized to use for any store billing and inventory management 
 
